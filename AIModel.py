@@ -68,7 +68,7 @@ model.summary()
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=[ 'accuracy'])
 
 # Epochs should be increased to fully train (but will take longer)
-history = model.fit_generator(train_generator, epochs=20, verbose=1, validation_data=validation_generator, callbacks=[best_model])
+history = model.fit_generator(train_generator, epochs=30, verbose=1, validation_data=validation_generator, callbacks=[best_model])
 
 acc=history.history['accuracy']
 val_acc=history.history['val_accuracy']
