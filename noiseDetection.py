@@ -61,7 +61,7 @@ def clean_image(image_in):
     noise_reduced_image = noise_reduction(image, noise_level)
 
     if noise_level <= 3000:
-        final_image = sharpen(noise_reduced_image, (3, 3))
+        final_image = sharpen(noise_reduced_image, (1, 1))
 
     else:
         final_image = noise_reduced_image
@@ -70,5 +70,5 @@ def clean_image(image_in):
 
     return final_image
 
-clean_image('example_noisy_image.png')
+#clean_image('example_noisy_image.png')
 
