@@ -28,7 +28,7 @@ def noise_reduction(image_in, noise):
     noise = noise_detection(image_in)
     if noise > 10000:
         return cv2.fastNlMeansDenoisingColored(image_in, None, 30, 10, 7, 21)
-    elif (noise <= 10000) & (noise > 3000):
+    elif (noise <= 10000): #& (noise > 3000):
         return cv2.fastNlMeansDenoisingColored(image_in, None, 5, 5, 7, 21)
 
     else:
