@@ -15,7 +15,7 @@ def classify(filename):
 	image = cv2.imread(os.path.join('./flaskr/static/', filename))
 
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	blurred = cv2.GaussianBlur(gray, (11, 11), 0)
+	blurred = cv2.GaussianBlur(gray, (9, 9), 2)
 
 	# threshold the image to reveal light regions in the
 	# blurred image
@@ -23,8 +23,8 @@ def classify(filename):
 
 	# perform a series of erosions and dilations to remove
 	# any small blobs of noise from the thresholded image
-	thresh = cv2.erode(thresh, None, iterations=2)
-	thresh = cv2.dilate(thresh, None, iterations=4)
+	thresh = cv2.erode(thresh, None, iterations=0)
+	thresh = cv2.dilate(thresh, None, iterations=1)
 
 	# perform a connected component analysis on the thresholded
 	# image, then initialize a mask to store only the "large"
@@ -43,7 +43,7 @@ def classify(filename):
 		numPixels = cv2.countNonZero(labelMask)
 		# if the number of pixels in the component is sufficiently
 		# large, then add it to our mask of "large blobs"
-		if numPixels > 10:
+		if numPixels > 1:
 			mask = cv2.add(mask, labelMask)
 
 	# find the contours in the mask, then sort them from left to
