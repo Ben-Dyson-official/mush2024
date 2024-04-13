@@ -7,7 +7,17 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.preprocessing.image import load_img, img_to_array
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 
+def preprocess_image(path):
+    img = load_img(path, target_size = (img_height, img_width))
+    a = img_to_array(img)
+    a = np.expand_dims(a, axis = 0)
+    a /= 255.
+    return a
 
 # Standardise image width and height
 img_width = 256
@@ -59,6 +69,30 @@ model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=[ 'accu
 
 # Epochs should be increased to fully train (but will take longer)
 history = model.fit_generator(train_generator, epochs=20, verbose=1, validation_data=validation_generator, callbacks=[best_model])
+
+acc=history.history['accuracy']
+val_acc=history.history['val_accuracy']
+loss=history.history['loss']
+val_loss=history.history['val_loss']
+
+epochs=range(len(acc))
+
+fig = plt.figure(figsize=(14,7))
+plt.plot(epochs, acc, 'r', label="Training Accuracy")
+plt.plot(epochs, val_acc, 'b', label="Validation Accuracy")
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.title('Training and validation accuracy')
+plt.legend(loc='lower right')
+plt.show()
+
+fig2 = plt.figure(figsize=(14,7))
+plt.plot(epochs, loss, 'r', label="Training Loss")
+plt.plot(epochs, val_loss, 'b', label="Validation Loss")
+plt.legend(loc='upper right')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.title('Training and validation loss')
 
 
 
