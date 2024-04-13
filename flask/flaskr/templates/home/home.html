@@ -3,15 +3,29 @@
 {% block title %}Home{% endblock %}
 {% block maincontent %}
 
-<div class="login-container">
+<div class="container">
 
-	<p> Yo </p>
+	<div>
+		<p> Yo </p>
+	</div>
 
-	<form method="post" enctype="multipart/form-data">
-		<label for="inputFile">Select a file:</label>	
-		<input type="file" id="inputFile" name="inputFile" accept="image/*">
-		<input onclick="window.location.href='/home'" type="submit" value="Submit">
-	</form>
+	<br><br>
+
+	<div>
+		<form method="post" enctype="multipart/form-data">
+			<label for="inputFile">Select a file:</label>	
+			<input type="file" id="inputFile" name="inputFile" accept="image/*">
+			<input onclick="window.location.href='/home'" type="submit" value="Submit">
+		</form>
+	</div>
+
+	<br><br>
+
+	{% if filename %}
+		<div class="image">
+			<img src="/static/{{ filename }}">
+		</div>
+	{% endif %}
 
 </div>
 

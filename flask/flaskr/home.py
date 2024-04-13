@@ -8,18 +8,16 @@ bp = Blueprint("home", __name__, url_prefix="/")
 # routes
 
 @bp.route("")
-def handleEmpty():
+def handle_empty():
     return redirect("/home")
 
 @bp.route("home")
-def homePage():
+def home_page():
 	return render_template("home/home.html")
 
 @bp.route("home", methods=['POST'])
-def imageSubmit():
+def image_submit():
 	file = request.files['inputFile']
-	file.save(os.path.join('./', file.filename))	
+	file.save(os.path.join('./flaskr/static/', file.filename))
 	util.classify(file.filename)
-	return redirect("/home")
-
-
+	return render_template("home/home.html", filename=file.filename)

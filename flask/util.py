@@ -8,11 +8,11 @@ import numpy as np
 import argparse
 import imutils
 import cv2
-
+import os
 
 def classify(filename):
 	"""Circles the stars of an input image, writes the output to a file"""
-	image = cv2.imread(filename)
+	image = cv2.imread(os.path.join('./flaskr/static/', filename))
 
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 	blurred = cv2.GaussianBlur(gray, (11, 11), 0)
@@ -60,4 +60,4 @@ def classify(filename):
 		cv2.putText(image, "#{}".format(i + 1), (x, y - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
 
 	# show the output image
-	cv2.imwrite("output.png", image)
+	cv2.imwrite(os.path.join('./flaskr/static/', filename), image)
