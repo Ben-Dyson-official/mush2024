@@ -25,3 +25,7 @@ This project has been built in a 24 hour period.
 - Flask or Django
 - OpenCV
 - TensorFlow
+
+## References
+
+- Denoise example: https://www.geeksforgeeks.org/python-denoising-of-colored-images-using-opencv/
