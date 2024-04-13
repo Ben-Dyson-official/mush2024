@@ -49,4 +49,3 @@ plt.subplot(131), plt.imshow(img, cmap='grey'), plt.title("Original")
 plt.subplot(132), plt.imshow(img, cmap='grey'), plt.title("Sharpend2")
 plt.show()
 
-
