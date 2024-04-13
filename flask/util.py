@@ -14,8 +14,12 @@ def classify(filename):
 	"""Circles the stars of an input image, writes the output to a file"""
 	image = cv2.imread(os.path.join('./flaskr/static/', filename))
 
+	original_image = image # save the original image
+
+	image = process_img(image)
+
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-	blurred = cv2.GaussianBlur(gray, (9, 9), 2)
+	blurred = cv2.GaussianBlur(gray, (5, 5), 2)
 
 	# threshold the image to reveal light regions in the
 	# blurred image
@@ -56,8 +60,83 @@ def classify(filename):
 		# draw the bright spot on the image
 		(x, y, w, h) = cv2.boundingRect(c)
 		((cX, cY), radius) = cv2.minEnclosingCircle(c)
-		cv2.circle(image, (int(cX), int(cY)), int(radius), (0, 0, 255), 3)
-		cv2.putText(image, "#{}".format(i + 1), (x, y - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+		cv2.circle(original_image, (int(cX), int(cY)), int(radius), (0, 255, 0), 3)
+		#cv2.putText(image, "#{}".format(i + 1), (x, y - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
 
 	# show the output image
-	cv2.imwrite(os.path.join('./flaskr/static/', filename), image)
+	cv2.imwrite(os.path.join('./flaskr/static/', filename), original_image)
+
+
+# BEFORE CLASSIFY CLEANING
+
+def process_img(image):
+    return color_hist_change(clean_image(image))
+
+def color_hist_change(colorimage):
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8))
+
+    colorimage_b = clahe.apply(colorimage[:,:,0])
+    colorimage_g = clahe.apply(colorimage[:,:,1])
+    colorimage_r = clahe.apply(colorimage[:,:,2])
+    
+    colorimage_e = np.stack((colorimage_b, colorimage_g, colorimage_r), axis=2)
+    colorimage_e.shape
+
+    return colorimage_e
+
+def clean_image(image_in):
+    noise_level = noise_detection(image_in)
+
+    noise_reduced_image = noise_reduction(image_in, noise_level)
+
+    if noise_level <= 3000:
+        final_image = sharpen(noise_reduced_image, (1, 1))
+
+    else:
+        final_image = noise_reduced_image
+
+    noise_detection(final_image)
+
+    return final_image
+
+def noise_detection(image_input) -> float:  
+    """Higer the variance the higher the noise"""
+    
+    """Higher the variance the higher the noise."""
+    if isinstance(image_input, str):
+        image = cv2.imread(image_input)
+        if image is None:
+            raise ValueError(f"Image at {image_input} could not be loaded.")
+        grey_scale = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    elif isinstance(image_input, np.ndarray):
+        grey_scale = image_input
+    else:
+        raise TypeError("Input must be a file path string or a numpy array.")
+
+    laplacian = cv2.Laplacian(grey_scale, cv2.CV_64F)
+    variance = laplacian.var()
+
+    #print(f"{image_input} variance: {variance}")
+    return variance
+
+def noise_reduction(image_in, noise):
+    noise = noise_detection(image_in)
+    if noise > 10000:
+        return cv2.fastNlMeansDenoisingColored(image_in, None, 30, 10, 7, 21)
+    elif (noise <= 10000):
+        return cv2.fastNlMeansDenoisingColored(image_in, None, 5, 5, 7, 21)
+
+    else:
+        return image_in
+
+def sharpen(img_in, kernal_size):
+	
+	if img_in is None:
+		print("No image ERROR")
+		return None
+
+	blurred =  cv2.GaussianBlur(img_in, kernal_size, 0)
+
+	unsharp_mask = cv2.addWeighted(img_in, 1.5, blurred, -0.5, 0)
+
+	return unsharp_mask
