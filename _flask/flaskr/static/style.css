@@ -1,0 +1,16 @@
+.login-container {
+    position: absolute;
+    background-color: whitesmoke;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 450px;
+    border: 3px solid #3a090b;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Proxima Nova, Arial, Helvetica, sans-serif;
+}

@@ -41,3 +41,4 @@ This project has been built in a 24 hour period.
 - Classification example: https://prancer.physics.louisville.edu/astrowiki/index.php/Image_processing_with_Python_and_SciPy
 - Star detect: https://github.com/Aniket965/star-detection/blob/master/star_detect.py
 - Detecting bright spots: https://pyimagesearch.com/2016/10/31/detecting-multiple-bright-spots-in-an-image-with-python-and-opencv/
+- Accessing file from HTML in Flask: https://stackoverflow.com/questions/66054886/how-to-access-type-file-input-from-flask-app
