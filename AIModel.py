@@ -95,6 +95,29 @@ plt.ylabel('Loss')
 plt.title('Training and validation loss')
 
 
+# Read Test Images Dir and their labels
+test_images_dir = '/content/dataset/test_data/'
+test_df = pd.read_csv('/content/dataset/test.csv')
+
+# put them in a list
+test_dfToList = test_df['Image_id'].tolist()
+test_ids = [str(item) for item in test_dfToList]
+
+test_images = [test_images_dir+item for item in test_ids]
+test_preprocessed_images = np.vstack([preprocess_image(fn) for fn in test_images])
+np.save('/content/test_preproc_CNN.npy', test_preprocessed_images)
+
+# Predict the answer on the test set
+array = model.predict(test_preprocessed_images, batch_size=1, verbose=1)
+answer = np.argmax(array, axis=1)
+print(answer)
+
+test_df = pd.read_csv('/content/dataset/test.csv')
+y_true = test_df['labels']
+y_pred = array
+print(y_true)
+
+
 
 
 
