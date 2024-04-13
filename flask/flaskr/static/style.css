@@ -1,3 +1,12 @@
+@font-face {
+	font-family: "Monocraft";
+	src: url('Monocraft.ttf');
+}
+
+body {
+	font-family: Monocraft;
+}
+
 .container {
     background-color: whitesmoke;
     
@@ -15,8 +24,6 @@
     border-radius: 10px;
     
 	text-align: center;
-    
-	font-family: Proxima Nova, Arial, Helvetica, sans-serif;
 }
 
 .image {
