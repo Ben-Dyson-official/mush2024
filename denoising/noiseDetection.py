@@ -46,7 +46,6 @@ def sharpen(img_in, kernal_size):
     cv2.imwrite('changed_img.jpg',img_in)
     unsharp_mask = cv2.addWeighted(img_in, 1.5, blurred, -0.5, 0)
     cv2.imwrite('changed_img.jpg', unsharp_mask)
-    
     return unsharp_mask
 
     #plt.figure(figsize=(10,5))
@@ -66,9 +65,8 @@ def clean_image(image_in):
     else:
         final_image = noise_reduced_image
 
-    noise_detection(final_image)
+    noise_detection(final_image) 
 
     return final_image
-
 #clean_image('example_noisy_image.png')
 

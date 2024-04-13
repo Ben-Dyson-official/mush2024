@@ -21,6 +21,4 @@ def colorHistChange(colorimage):
 
 def process_Img(image):
     #cv2.imwrite('cleaned-image.jpg', colorHistChange(noiseDetection.clean_image(image)))
-    return colorHistChange(noiseDetection.clean_image(image))
-
-#process_Img('star_hubble.jpg')
+    return colorHistChange(noiseDetection.clean_image(image)) #process_Img('star_hubble.jpg')
