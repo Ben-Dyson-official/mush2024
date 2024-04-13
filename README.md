@@ -9,6 +9,11 @@ This project has been built in a 24 hour period.
 - Noise reduction
 - Image classification
 
+## Dependencies
+- numpy
+- opencv-python
+- matplotlib
+
 ## Frontend
 
 - HTML
