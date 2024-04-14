@@ -2,31 +2,52 @@
 
 {% block title %}Home{% endblock %}
 {% block maincontent %}
-
-<div class="container">
-
-	<div>
-		<p> starmapper </p>
-	</div>
-
-	<br><br>
-
-	<div>
-		<form method="post" enctype="multipart/form-data">
-			<label for="inputFile">Select a file:</label>	
-			<input type="file" id="inputFile" name="inputFile" accept="image/*">
-			<input onclick="window.location.href='/home'" type="submit" value="Submit">
-		</form>
-	</div>
-
-	<br><br>
-
-	{% if filename %}
-		<div class="image">
-			<img src="/static/{{ filename }}">
+<div>
+	<div class="container">
+		<div id="title">
+			<p> Starmapper </p>
 		</div>
-	{% endif %}
 
+
+		<div>
+			<form method="post" enctype="multipart/form-data">
+				<div id="button-container">
+					<div id="button1-div">
+						<label class="button1">
+							Stars
+						</label>
+					</div>
+						<div id="slider-div">
+							<label class="switch">
+								<input type="checkbox" name="checkbox-slider" id="checkbox-slider">
+								<span class="slider round"></span>
+							</label>
+						</div>
+					<div id="button2-div">
+						<label class="button1">
+							Constellation
+						</label>
+					</div>
+				</div>
+				<div>
+					<div>
+					<label for="inputFile" id="file-label">Choose file</label>
+					</div>
+					<input type="file" id="inputFile" name="inputFile" accept="image/*"class="file">
+					<input onclick="window.location.href='/home'" type="submit" value="Submit" id="submit">
+				</div>
+			</form>
+		</div>
+
+		<br><br>
+
+		{% if filename %}
+			<div class="image">
+				<img src="/static/{{ filename }}">
+			</div>
+
+		{% endif %}
+
+	</div>
 </div>
-
 {% endblock %}

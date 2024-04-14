@@ -17,6 +17,11 @@ def home_page():
 
 @bp.route("home", methods=['POST'])
 def image_submit():
+	option = request.form.get('checkbox-slider')
+	if option: #Constellation option
+		pass
+	else: #Star option
+		pass
 	file = request.files['inputFile']
 	file.save(os.path.join('./flaskr/static/', file.filename))
 	util.classify(file.filename)

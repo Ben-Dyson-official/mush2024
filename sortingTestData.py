@@ -11,17 +11,17 @@ testData = {"Image_id": 0, "labels": 0}
 Image_id = []
 labels = []
 
-df = pd.read_csv("/Users/bendyson/Coding/gitRepos/mush2024/data/test/_annotations.csv")
+df = pd.read_csv("/Users/bendyson/Coding/gitRepos/mush2024/_annotations.csv")
 #iterate through all the rows
 for index, row in df.iterrows():
     #Copy the file to the new location of the constellation name
     shutil.copyfile('/Users/bendyson/Coding/gitRepos/mush2024/data/test/' + row['filename'], '/Users/bendyson/Coding/gitRepos/mush2024/dataset/test_data/' + row['class'] + "_" + str(constellation_count[row['class']]) + pathlib.Path(row['filename']).suffix)
-    #increase the constellation number
-    constellation_count[row['class']] += 1
     #Add the image id
     Image_id.append(row['class'] + "_" + str(constellation_count[row['class']]) + pathlib.Path(row['filename']).suffix)
     #Add the labels
     labels.append(constellationsID[row['class']])
+    #increase the constellation number
+    constellation_count[row['class']] += 1
 
 #Add the image id and labels to testData
 testData["Image_id"] = Image_id
