@@ -12,8 +12,20 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
+import cv2
+
 def preprocess_image(path):
-    img = load_img(path, target_size = (img_height, img_width))
+    # read in file
+    img = cv2.imread(path)
+    # mask the image
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    blurred = cv2.GaussianBlur(gray, (5, 5), 2)
+    img = cv2.threshold(blurred, 100, 255, cv2.THRESH_BINARY)[1]
+    # save masked image
+    cv2.imwrite(path, img)
+
+    img = load_img(path, target_size = (256, 256))
+
     a = img_to_array(img)
     a = np.expand_dims(a, axis = 0)
     a /= 255.
@@ -25,7 +37,7 @@ img_height = 256
 
 batch_size = 16
 
-TRAINING_DIR = "C:/Users/James/Desktop/mush2024/constellation_data/train"
+TRAINING_DIR = "C:/Users/James/Desktop/mush2024/constellation_data_bw/train"
 
 # Rotate, rescale and zoom to create a wider range of images from different angle
 train_datagen = ImageDataGenerator(rescale=1/255.0, rotation_range=30, zoom_range=0.4)
@@ -34,7 +46,7 @@ train_datagen = ImageDataGenerator(rescale=1/255.0, rotation_range=30, zoom_rang
 train_generator = train_datagen.flow_from_directory(TRAINING_DIR, batch_size=batch_size, class_mode='categorical', target_size=(img_height, img_width))
 
 # Same for validation
-VALIDATION_DIR = "C:/Users/James/Desktop/mush2024/constellation_data/validation"
+VALIDATION_DIR = "C:/Users/James/Desktop/mush2024/constellation_data_bw/validation"
 
 validation_datagen = ImageDataGenerator(rescale=1/255.0, rotation_range=30, zoom_range=0.4)
 
@@ -68,7 +80,7 @@ model.summary()
 model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=[ 'accuracy'])
 
 # Epochs should be increased to fully train (but will take longer)
-history = model.fit_generator(train_generator, epochs=30, verbose=1, validation_data=validation_generator, callbacks=[best_model])
+history = model.fit_generator(train_generator, epochs=1, verbose=1, validation_data=validation_generator, callbacks=[best_model])
 
 acc=history.history['accuracy']
 val_acc=history.history['val_accuracy']
@@ -96,8 +108,8 @@ plt.title('Training and validation loss')
 
 
 # Read Test Images Dir and their labels
-test_images_dir = '/content/dataset/test_data/'
-test_df = pd.read_csv('/content/dataset/test.csv')
+test_images_dir = 'C:/Users/James/Desktop/mush2024/dataset/test_data/'
+test_df = pd.read_csv('C:/Users/James/Desktop/mush2024/dataset/test.csv')
 
 # put them in a list
 test_dfToList = test_df['Image_id'].tolist()
@@ -105,14 +117,14 @@ test_ids = [str(item) for item in test_dfToList]
 
 test_images = [test_images_dir+item for item in test_ids]
 test_preprocessed_images = np.vstack([preprocess_image(fn) for fn in test_images])
-np.save('/content/test_preproc_CNN.npy', test_preprocessed_images)
+np.save('C:/Users/James/Desktop/mush2024/test_preproc_CNN.npy', test_preprocessed_images)
 
 # Predict the answer on the test set
 array = model.predict(test_preprocessed_images, batch_size=1, verbose=1)
 answer = np.argmax(array, axis=1)
 print(answer)
 
-test_df = pd.read_csv('/content/dataset/test.csv')
+test_df = pd.read_csv('C:/Users/James/Desktop/mush2024/dataset/test.csv')
 y_true = test_df['labels']
 y_pred = array
 print(y_true)
