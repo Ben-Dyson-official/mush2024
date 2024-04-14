@@ -219,4 +219,4 @@ def prep_image(image_path, target_size):
     return img
 
 
-
+print(check_model('20epochs.h5', '../denoising/andromeda.jpg' ))
