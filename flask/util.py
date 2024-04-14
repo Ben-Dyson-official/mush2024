@@ -192,39 +192,18 @@ def check_model(model_path, image_path):
     return predicted_class
 
 def preprocess_image(path):
-	img = load_img(path, target_size = (256, 256))
-    
+	# read in file
+	img = cv2.imread(path)
 	# mask the image
 	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 	blurred = cv2.GaussianBlur(gray, (5, 5), 2) 
 	img = cv2.threshold(blurred, 100, 255, cv2.THRESH_BINARY)[1]
+	# save masked image
+	cv2.imwrite(path, img)
 
+	img = load_img(path, target_size = (256, 256))
+    
 	a = img_to_array(img)
 	a = np.expand_dims(a, axis = 0)
 	a /= 255.
 	return a
-
-'''
-def prep_image(image_path, target_size):
-    img = cv2.imread(image_path)
-    if img is None:
-        raise FileNotFoundError("File not found")
-
-    
-    image = process_img(img)
-
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    blurred = cv2.GaussianBlur(gray, (5, 5), 2)
-
-	# threshold the image to reveal light regions in the
-	# blurred image
-    thresh = cv2.threshold(blurred, 100, 255, cv2.THRESH_BINARY)[1]
-
-    img = cv2.resize(thresh, target_size)
-
-    img = np.expand_dims(img, target_size)
-
-    return img
-'''
-
-print(check_model('20epochs.h5', 'flaskr/static/star_hubble.jpg'))
