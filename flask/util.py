@@ -42,6 +42,7 @@ def classify(filename):
 	cnts = cv2.findContours(star_mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 	cnts = imutils.grab_contours(cnts)
 	cnts = contours.sort_contours(cnts)[0]
+	star_num = 0	
 	# loop over the contours
 	for (i, c) in enumerate(cnts):
 		# draw the bright spot on the image
@@ -49,17 +50,21 @@ def classify(filename):
 		((cX, cY), radius) = cv2.minEnclosingCircle(c)
 		cv2.circle(original_image, (int(cX), int(cY)), int(radius), (0, 255, 0), 3)
 		#cv2.putText(image, "#{}".format(i + 1), (x, y - 15), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+		star_num += 1
 
 	# trace the clusters
 	cnts = cv2.findContours(cluster_mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 	cnts = imutils.grab_contours(cnts)
 	cnts = contours.sort_contours(cnts)[0]
+	cluster_num = 0
 	for c in cnts:
 		cv2.drawContours(original_image, [c], -1, (255, 255, 0), thickness=10)
+		cluster_num += 1
 
 	# show the output image
 	cv2.imwrite(os.path.join('./flaskr/static/', filename), original_image)
 
+	return star_num, cluster_num
 
 # BEFORE CLASSIFY CLEANING
 
@@ -171,10 +176,11 @@ def get_cluster_mask(img):
 
 	for contour in contours:
 		area = cv2.contourArea(contour)
-    
+   
+		 
+		selected_contours.append(contour)
+		blank_image = np.zeros(mask.shape, np.uint8)
 		if area > 1000: #this is the val we can change
-			selected_contours.append(contour)
-			blank_image = np.zeros(mask.shape, np.uint8)
 			cv2.fillPoly(blank_image, pts=selected_contours, color=(255, 255, 255))
 
 	out_img = cv2.bitwise_not(blank_image)
@@ -182,7 +188,7 @@ def get_cluster_mask(img):
 	return out_img
 
 def check_model(image_path):
-    model = load_model('20epochs.h5')
+    model = load_model('model.h5')
     
     prepped_image = preprocess_image(image_path)
 

@@ -52,7 +52,12 @@
 			<div class="image">
 				<img src="/static/{{ filename }}">
 			</div>
-
+		{% endif %}
+		{% if star_num %}
+			<div>
+				<p>Number of stars: {{ star_num }}</p>
+				<p>Number of cluster: {{ cluster_num }}</p>
+			</div>
 		{% endif %}
 		{% if fact %}
 			<p>Constellation: {{fact[0]}}</p>

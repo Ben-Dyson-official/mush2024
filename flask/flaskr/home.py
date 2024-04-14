@@ -23,11 +23,11 @@ def image_submit():
 
 	if option: #Constellation option
 		index = util.check_model(os.path.join('./flaskr/static/', file.filename))[0]
-		fact = util.read_csv(index)
+		fact = util.read_csv(index+1)
 		return render_template("home/home.html", filename=file.filename, fact=fact)
 	else: #Star option
-		util.classify(file.filename)
-		return render_template("home/home.html", filename=file.filename)
+		star_num, cluster_num = util.classify(file.filename)
+		return render_template("home/home.html", filename=file.filename, star_num=star_num, cluster_num=cluster_num)
 
 
 
