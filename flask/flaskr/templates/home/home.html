@@ -2,6 +2,13 @@
 
 {% block title %}Home{% endblock %}
 {% block maincontent %}
+<script>
+	function nameUpdate() {
+		var fileInput = document.getElementById('inputFile');
+		var filename = fileInput.files[0].name;
+		document.getElementById("file-name").innerHTML = `<div> ${filename}</div>`;
+	}
+</script>
 <div>
 	<div class="container">
 		<div id="title">
@@ -32,7 +39,8 @@
 					<div>
 					<label for="inputFile" id="file-label">Choose file</label>
 					</div>
-					<input type="file" id="inputFile" name="inputFile" accept="image/*"class="file">
+					<input type="file" id="inputFile" name="inputFile" accept="image/*"class="file" onchange="nameUpdate()">
+					<div id="file-name">No file chosen</div>
 					<input onclick="window.location.href='/home'" type="submit" value="Submit" id="submit">
 				</div>
 			</form>
@@ -47,7 +55,7 @@
 
 		{% endif %}
 		{% if fact %}
-			<p>Constelation: {{fact[0]}}</p>
+			<p>Constellation: {{fact[0]}}</p>
     		<p>Fact: {{fact[1]}}</p>
 		{% endif %}
 

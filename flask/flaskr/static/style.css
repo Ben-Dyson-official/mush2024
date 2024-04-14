@@ -76,8 +76,8 @@ body {
 
 #file-label {
 	border-radius: 10px;
-	width: 16vw;
-	height: 8vh;
+	width: 10vw;
+	height: 6vh;
 	background: #002b36;
 	color: #93a1a1;
 	text-align: center;
@@ -88,11 +88,16 @@ body {
 	display: inline-flex;
 }
 
+#file-name {
+	font-family: Monocraft;
+	padding-bottom: 3vh;
+}
+
 #submit {
 	background: #002b36;
 	color: #93a1a1;
-	width: 80px;
-	height: 30px;
+	width: 16vw;
+	height: 8vh;
 	border-radius: 10px;
 	font-family: Monocraft;
 }
