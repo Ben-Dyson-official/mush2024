@@ -176,11 +176,10 @@ def get_cluster_mask(img):
 
 	for contour in contours:
 		area = cv2.contourArea(contour)
-   
-		 
-		selected_contours.append(contour)
-		blank_image = np.zeros(mask.shape, np.uint8)
+  
 		if area > 1000: #this is the val we can change
+			blank_image = np.zeros(mask.shape, np.uint8)
+			selected_contours.append(contour)
 			cv2.fillPoly(blank_image, pts=selected_contours, color=(255, 255, 255))
 
 	out_img = cv2.bitwise_not(blank_image)
