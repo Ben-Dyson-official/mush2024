@@ -9,14 +9,18 @@ This project has been built in a 24 hour period.
 - Noise reduction
 - Image classification
 
+## Usage
+
+Navigate to the flask folder, then:
+'''python3 run.py'''
+
 ## Dependencies
 - numpy
 - opencv-python
 - matplotlib
-
-- argparse
 - scikit-image
 - imutils
+- tensorflow
 
 ## Frontend
 
@@ -26,14 +30,13 @@ This project has been built in a 24 hour period.
 
 ## Backend
 
-- Flask or Django
+- Flask
 - OpenCV
 - TensorFlow
 
 ## Datasets
 
 - Constellations: https://universe.roboflow.com/ws-qwbuh/constellation-dsphi
-
 
 ## References
 
