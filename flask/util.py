@@ -9,6 +9,7 @@ import argparse
 import imutils
 import cv2
 import os
+import csv
 
 from tensorflow.keras.models import load_model
 from keras.preprocessing.image import load_img, img_to_array
@@ -180,8 +181,8 @@ def get_cluster_mask(img):
 	
 	return out_img
 
-def check_model(model_path, image_path):
-    model = load_model(model_path)
+def check_model(image_path):
+    model = load_model('20epochs.h5')
     
     prepped_image = preprocess_image(image_path)
 
@@ -207,3 +208,12 @@ def preprocess_image(path):
 	a = np.expand_dims(a, axis = 0)
 	a /= 255.
 	return a
+
+def read_csv(index):
+    with open('constellation_facts.csv', 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        facts = list(reader)
+
+        fact = facts[index]
+
+    return fact
